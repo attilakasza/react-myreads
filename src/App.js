@@ -1,26 +1,46 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import React from 'react'
+import {Switch, Route} from 'react-router-dom'
+import * as BooksAPI from './BooksAPI'
+import Search from './components/Search'
+import List from './components/List'
+import './App.css'
 
-function App() {
-  return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
-    </div>
-  );
+class BooksApp extends React.Component {
+
+  state = {
+    books: [],
+  }
+
+  getBooks = () => {
+    BooksAPI.getAll().then((books) => {
+      this.setState({ books })
+    })
+  }
+
+  componentDidMount() {
+    this.getBooks()
+  }
+
+  render() {
+    return (
+      <div className='app'>
+        <Switch>
+          <Route exact path={'/'} render={() => (
+            <List books={this.state.books} onUpdate={this.getBooks} />
+          )} />
+          <Route exact path={'/search'} render={({ history }) => (
+            <Search
+              books={this.state.books}
+              onUpdate={() => {
+                this.getBooks()
+                history.push('/')
+              }}
+            />
+          )} />
+        </Switch>
+      </div>
+    )
+  }
 }
 
-export default App;
+export default BooksApp
