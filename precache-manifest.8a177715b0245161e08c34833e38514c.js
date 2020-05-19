@@ -1,6 +1,6 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "28725d34b7aeb689f228304e5a7f043c",
+    "revision": "b3d5aea85d318a09907e915b8ee55de8",
     "url": "/react-myreads/index.html"
   },
   {
